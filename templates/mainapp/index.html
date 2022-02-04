@@ -50,12 +50,14 @@
                   <option value="2">Южный федеральный университет</option>
                   <option value="3">Донской государственный технический университет</option>
                 </select>
-                <br/><button type="submit" class="btn btn-primary btn-lg">Начать анализ</button>
+                <br/><button type="submit" onclick="(document.getElementById('load_block').style.display='block')" class="btn btn-primary btn-lg">Начать анализ</button>
                 </div>
             </form>
+            <div class="cssload-container" id="load_block" style=" display:none;">
+              <div class="cssload-whirlpool"></div>
+            </div>
       </div>
     </main>
-
   {% endif %}
 
 
@@ -98,5 +100,5 @@
     <script>window.jQuery || document.write('<script src="{% static 'mainapp/js/jquery-slim.min.js' %}"><\/script>')</script>
     <script src="{% static 'mainapp/js/popper.min.js' %}"></script>
     <script src="{% static 'mainapp/js/bootstrap.min.js' %}"></script>
-  </body>
+  </body>      
 </html>
