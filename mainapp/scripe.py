@@ -21,6 +21,18 @@ vuz_inf_dict = {
 	"Число авторов, зарегистрированных в Science Index" : 0
 }
 
+sotrud_inf_dict = {
+	"Число публикаций на elibrary.ru" : 0,
+	"Число публикаций в РИНЦ" : 0,
+	"Число публикаций, входящих в ядро РИНЦ" : 0,
+	"Число цитирований из публикаций на elibrary.ru" : 0,
+	"Число цитирований из публикаций, входящих в РИНЦ" : 0,
+	"Число цитирований из публикаций, входящих в ядро РИНЦ" : 0,
+	"Индекс Хирша по всем публикациям на elibrary.ru" : 0,
+	"Индекс Хирша по публикациям в РИНЦ" : 0,
+	"Индекс Хирша по ядру РИНЦ" : 0,
+}
+
 def scripe(url):
 #	s=Service(ChromeDriverManager().install())
 #	driver = webdriver.Chrome(service=s)
@@ -74,20 +86,14 @@ def vuz_obsh_inf(soup):
 	items = soup.find_all('a', attrs={'title':'Список публикаций организации на портале elibrary.ru'})
 	if items[0].text:
 		vuz_inf_dict["Число публикаций на elibrary.ru"] = items[0].text
-	else:
-		vuz_inf_dict["Число публикаций на elibrary.ru"] = 0
 
 	items = soup.find_all('a', attrs={'title':'Список публикаций организации в РИНЦ'})
 	if items[0].text:
 		vuz_inf_dict["Число публикаций в РИНЦ"] = items[0].text
-	else:
-		vuz_inf_dict["Число публикаций в РИНЦ"] = 0
 
 	items = soup.find_all('a', attrs={'title':'Список публикаций организации, входящих в ядро РИНЦ'})
 	if items[0].text:
 		vuz_inf_dict["Число публикаций, входящих в ядро РИНЦ"] = items[0].text
-	else:
-		vuz_inf_dict["Число публикаций, входящих в ядро РИНЦ"] = 0
 
 	items = soup.find_all('td')
 	td_num = 0
@@ -180,11 +186,51 @@ def vuz_obsh_inf(soup):
 				td_num = n
 	vuz_inf_dict["Число авторов, зарегистрированных в Science Index"] = items[td_num + 4].find_all('font')[0].text
 
+def sotrud_obsh_inf(soup):
+	items = soup.find_all('a', attrs={'title':'Полный список публикаций автора на портале elibrary.ru'})
+	if items[0].text:
+		sotrud_inf_dict["Число публикаций на elibrary.ru"] = items[0].text
+
+	items = soup.find_all('a', attrs={'title':'Список публикаций автора в РИНЦ'})
+	if items[0].text:
+		sotrud_inf_dict["Число публикаций в РИНЦ"] = items[0].text
+
+	items = soup.find_all('a', attrs={'title':'Список публикаций данного автора, входящих в ядро РИНЦ'})
+	if items[0].text:
+		sotrud_inf_dict["Число публикаций, входящих в ядро РИНЦ"] = items[0].text
+
+	items = soup.find_all('a', attrs={'title':'Список цитирований публикаций автора на elibrary.ru'})
+	if items[0].text:
+		sotrud_inf_dict["Число цитирований из публикаций на elibrary.ru"] = items[0].text
+
+	items = soup.find_all('a', attrs={'title':'Список цитирований публикаций автора в РИНЦ'})
+	if items[0].text:
+		sotrud_inf_dict["Число цитирований из публикаций, входящих в РИНЦ"] = items[0].text
+
+	items = soup.find_all('a', attrs={'title':'Список цитирований публикаций автора по ядру РИНЦ'})
+	if items[0].text:
+		sotrud_inf_dict["Число цитирований из публикаций, входящих в ядро РИНЦ"] = items[0].text
+
+	items = soup.find_all('td')
+	td_num = 0
+	for n, i in enumerate(items, start=0):
+		tags = i.find_all('font')
+		for j in tags:
+			if j.text == "Индекс Хирша по всем публикациям на elibrary.ru":
+				td_num = n
+	sotrud_inf_dict["Индекс Хирша по всем публикациям на elibrary.ru"] = items[td_num + 1].find_all('font')[0].text
+	sotrud_inf_dict["Индекс Хирша по публикациям в РИНЦ"] = items[td_num + 4].find_all('font')[0].text
+	sotrud_inf_dict["Индекс Хирша по ядру РИНЦ"] = items[td_num + 7].find_all('font')[0].text
+
 def vuz_inf(orgId):
 	str_url = "https://www.elibrary.ru/org_profile.asp?id=" + str(orgId)
 	soup = scripe(str_url)
 	vuz_obsh_inf(soup)
 
+def sotrud_inf(authorId):
+	str_url = "https://elibrary.ru/author_profile.asp?authorid=" + str(authorId)
+	soup = scripe(str_url)
+	sotrud_obsh_inf(soup)
 #def main(args):
 #	url = 'https://elibrary.ru/author_items.asp?authorid=640991'
 #	soup = scripe(url)

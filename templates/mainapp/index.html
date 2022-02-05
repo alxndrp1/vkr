@@ -31,23 +31,26 @@
             <div class="form-group">
               <input type="hidden" name="vuz" value="{{ univer.id }}">
               <label for="exampleFormControlSelect1">Факультет:</label>
-              <select class="form-control form-control-lg" id="exampleFormControlSelect1" name="fak">
+              <select disabled class="form-control form-control-lg" id="fakSelect" name="fak" onchange="this.form.submit(); (document.getElementById('load_block').style.display='block')">
                 <option value="1">Все</option>
               </select>
               <label for="exampleFormControlSelect1">Кафедра:</label>
-              <select class="form-control form-control-lg" id="exampleFormControlSelect1" name="kaf">
+              <select disabled class="form-control form-control-lg" id="kafSelect" name="kaf" onchange="this.form.submit(); (document.getElementById('load_block').style.display='block')">
                 <option value="1">Все</option>
               </select>
               <label for="exampleFormControlSelect1">Сотрудник:</label>
-              <select class="form-control form-control-lg" id="exampleFormControlSelect1" name="sotrud">
+              <select class="form-control form-control-lg" id="sotrSelect" name="sotrud" onchange="this.form.submit(); (document.getElementById('load_block').style.display='block')">
                 <option value="1">Все</option>
+                {% for sotr in sotrud %}
+                    <option value="{{sotr.id}}">{{sotr.fio_sotrud}}</option>
+                {% endfor%}
               </select>
             </div>  
           </form>
           <div class="cssload-container" id="load_block" style=" display:none;">
             <div class="cssload-whirlpool"></div>
           </div>
-
+          {% if not rej_view %}
           <table class="table table-striped">
             <thead class="thead-dark">
               <tr>
@@ -56,6 +59,10 @@
               </tr>
             </thead>
             <tbody>
+              <tr>
+                  <td>ID организации на elibrary</td>
+                  <td>{{ univer.orgsid_univer }}</td>
+              </tr>  
               {% for dict_item in vuz_inf_dict.items %}
               <tr>
                 {% for key in dict_item %}
@@ -65,6 +72,34 @@
               {% endfor %}                                        
             </tbody>
           </table>
+          {% endif %}
+          {% if rej_view == 3 %}
+          <table class="table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th>Название показателя</th>
+                <th>Значение</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                  <td>ФИО сотрудника</td>
+                  <td>{{ sotr.fio_sotrud }}</td>
+              </tr>  
+              <tr>
+                  <td>ID автора на elibrary.ru</td>
+                  <td>{{ sotr.authorid_sotrud }}</td>
+              </tr>                
+              {% for dict_item in sotrud_inf_dict.items %}
+              <tr>
+                {% for key in dict_item %}
+                  <td>{{key | safe}}</td>
+                {% endfor %}
+              </tr>  
+              {% endfor %}                                        
+            </tbody>
+          </table>
+          {% endif %}
         </div>
       </div>
     </main>      
@@ -129,5 +164,14 @@
     <script>window.jQuery || document.write('<script src="{% static 'mainapp/js/jquery-slim.min.js' %}"><\/script>')</script>
     <script src="{% static 'mainapp/js/popper.min.js' %}"></script>
     <script src="{% static 'mainapp/js/bootstrap.min.js' %}"></script>
+    {% if rej_view == 3 %}
+    <script type="text/javascript">
+      {% for k, v in sotrud_inf_dict.items %}
+        {% if k == 'ФИО сотрудника' %}
+          document.getElementById("sotrSelect").value = '{{sotr.id}}';
+        {% endif %}
+      {% endfor %}
+    </script>
+    {% endif %}
   </body>      
 </html>
