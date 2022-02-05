@@ -188,28 +188,40 @@ def vuz_obsh_inf(soup):
 
 def sotrud_obsh_inf(soup):
 	items = soup.find_all('a', attrs={'title':'Полный список публикаций автора на портале elibrary.ru'})
-	if items[0].text:
+	try:
 		sotrud_inf_dict["Число публикаций на elibrary.ru"] = items[0].text
+	except IndexError:
+		sotrud_inf_dict["Число публикаций на elibrary.ru"] = 0
 
 	items = soup.find_all('a', attrs={'title':'Список публикаций автора в РИНЦ'})
-	if items[0].text:
+	try:
 		sotrud_inf_dict["Число публикаций в РИНЦ"] = items[0].text
+	except IndexError:
+		sotrud_inf_dict["Число публикаций в РИНЦ"] = 0
 
 	items = soup.find_all('a', attrs={'title':'Список публикаций данного автора, входящих в ядро РИНЦ'})
-	if items[0].text:
+	try:
 		sotrud_inf_dict["Число публикаций, входящих в ядро РИНЦ"] = items[0].text
+	except IndexError:
+		sotrud_inf_dict["Число публикаций, входящих в ядро РИНЦ"] = 0
 
 	items = soup.find_all('a', attrs={'title':'Список цитирований публикаций автора на elibrary.ru'})
-	if items[0].text:
+	try:
 		sotrud_inf_dict["Число цитирований из публикаций на elibrary.ru"] = items[0].text
+	except IndexError:
+		sotrud_inf_dict["Число цитирований из публикаций на elibrary.ru"] = 0
 
 	items = soup.find_all('a', attrs={'title':'Список цитирований публикаций автора в РИНЦ'})
-	if items[0].text:
+	try:
 		sotrud_inf_dict["Число цитирований из публикаций, входящих в РИНЦ"] = items[0].text
+	except IndexError:
+		sotrud_inf_dict["Число цитирований из публикаций, входящих в РИНЦ"] = 0
 
 	items = soup.find_all('a', attrs={'title':'Список цитирований публикаций автора по ядру РИНЦ'})
-	if items[0].text:
+	try:
 		sotrud_inf_dict["Число цитирований из публикаций, входящих в ядро РИНЦ"] = items[0].text
+	except IndexError:
+		sotrud_inf_dict["Число цитирований из публикаций, входящих в ядро РИНЦ"] = 0
 
 	items = soup.find_all('td')
 	td_num = 0

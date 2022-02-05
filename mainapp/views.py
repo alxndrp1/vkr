@@ -16,7 +16,7 @@ def index(request):
 			if 'sotrud' in request.GET:
 				if int(request.GET['sotrud']) > 1:
 					rej_view = 3
-					sotr = Sotrud.objects.get(id=2)
+					sotr = Sotrud.objects.get(id=int(request.GET['sotrud']))
 					sotrud_inf(sotr.authorid_sotrud)
 					sotrud = Sotrud.objects.all()
 					return render(request, 'mainapp/index.html', {'sotr' : sotr, 'sotrud' : sotrud, 'sotrud_inf_dict' : sotrud_inf_dict, 'univer' : univer, 'vuz_inf_dict' : vuz_inf_dict, 'rej_view' : rej_view})

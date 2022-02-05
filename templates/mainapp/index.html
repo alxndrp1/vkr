@@ -166,11 +166,7 @@
     <script src="{% static 'mainapp/js/bootstrap.min.js' %}"></script>
     {% if rej_view == 3 %}
     <script type="text/javascript">
-      {% for k, v in sotrud_inf_dict.items %}
-        {% if k == 'ФИО сотрудника' %}
-          document.getElementById("sotrSelect").value = '{{sotr.id}}';
-        {% endif %}
-      {% endfor %}
+      document.getElementById("sotrSelect").value = '{{sotr.id}}';
     </script>
     {% endif %}
   </body>      
