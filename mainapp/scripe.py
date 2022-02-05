@@ -5,6 +5,22 @@ from selenium.webdriver.common.by import By
 from bs4 import BeautifulSoup
 import time
 
+vuz_inf_dict = {
+	"Число публикаций на elibrary.ru" : 0,
+	"Число публикаций в РИНЦ" : 0,
+	"Число публикаций, входящих в ядро РИНЦ" : 0,
+	"Число цитирований публикаций на elibrary.ru" : 0,
+	"Число цитирований публикаций в РИНЦ" : 0,
+	"Число цитирований из публикаций, входящих в ядро РИНЦ" : 0,
+	"Индекс Хирша по всем публикациям на elibrary.ru" : 0,
+	"Индекс Хирша по публикациям в РИНЦ" : 0,
+	"Индекс Хирша по ядру РИНЦ" : 0,
+	"g-индекс" : 0,
+	"i-индекс" : 0,
+	"Число авторов" : 0,
+	"Число авторов, зарегистрированных в Science Index" : 0
+}
+
 def scripe(url):
 #	s=Service(ChromeDriverManager().install())
 #	driver = webdriver.Chrome(service=s)
@@ -57,14 +73,117 @@ def find_publ(soup):
 def vuz_obsh_inf(soup):
 	items = soup.find_all('a', attrs={'title':'Список публикаций организации на портале elibrary.ru'})
 	if items[0].text:
-		return items[0].text
+		vuz_inf_dict["Число публикаций на elibrary.ru"] = items[0].text
 	else:
-		return ""
+		vuz_inf_dict["Число публикаций на elibrary.ru"] = 0
+
+	items = soup.find_all('a', attrs={'title':'Список публикаций организации в РИНЦ'})
+	if items[0].text:
+		vuz_inf_dict["Число публикаций в РИНЦ"] = items[0].text
+	else:
+		vuz_inf_dict["Число публикаций в РИНЦ"] = 0
+
+	items = soup.find_all('a', attrs={'title':'Список публикаций организации, входящих в ядро РИНЦ'})
+	if items[0].text:
+		vuz_inf_dict["Число публикаций, входящих в ядро РИНЦ"] = items[0].text
+	else:
+		vuz_inf_dict["Число публикаций, входящих в ядро РИНЦ"] = 0
+
+	items = soup.find_all('td')
+	td_num = 0
+	for n, i in enumerate(items, start=0):
+		tags = i.find_all('font')
+		for j in tags:
+			if j.text == "Число цитирований публикаций на elibrary.ru":
+				td_num = n
+	vuz_inf_dict["Число цитирований публикаций на elibrary.ru"] = items[td_num + 1].find_all('font')[0].text
+
+	items = soup.find_all('td')
+	td_num = 0
+	for n, i in enumerate(items, start=0):
+		tags = i.find_all('font')
+		for j in tags:
+			if j.text == "Число цитирований публикаций в РИНЦ":
+				td_num = n
+	vuz_inf_dict["Число цитирований публикаций в РИНЦ"] = items[td_num + 1].find_all('font')[0].text
+
+	items = soup.find_all('td')
+	td_num = 0
+	for n, i in enumerate(items, start=0):
+		tags = i.find_all('font')
+		for j in tags:
+			if j.text == "Число цитирований из публикаций, входящих в ядро РИНЦ":
+				td_num = n
+	vuz_inf_dict["Число цитирований из публикаций, входящих в ядро РИНЦ"] = items[td_num + 1].find_all('font')[0].text
+
+	items = soup.find_all('td')
+	td_num = 0
+	for n, i in enumerate(items, start=0):
+		tags = i.find_all('font')
+		for j in tags:
+			if j.text == "Индекс Хирша по всем публикациям на elibrary.ru":
+				td_num = n
+	vuz_inf_dict["Индекс Хирша по всем публикациям на elibrary.ru"] = items[td_num + 1].find_all('font')[0].text
+
+	items = soup.find_all('td')
+	td_num = 0
+	for n, i in enumerate(items, start=0):
+		tags = i.find_all('font')
+		for j in tags:
+			if j.text == "Индекс Хирша по публикациям в РИНЦ":
+				td_num = n
+	vuz_inf_dict["Индекс Хирша по публикациям в РИНЦ"] = items[td_num + 1].find_all('font')[0].text
+
+	items = soup.find_all('td')
+	td_num = 0
+	for n, i in enumerate(items, start=0):
+		tags = i.find_all('font')
+		for j in tags:
+			if j.text == "Индекс Хирша по ядру РИНЦ":
+				td_num = n
+	vuz_inf_dict["Индекс Хирша по ядру РИНЦ"] = items[td_num + 1].find_all('font')[0].text
+
+	items = soup.find_all('td')
+	td_num = 0
+	for n, i in enumerate(items, start=0):
+		tags = i.find_all('font')
+		for j in tags:
+			if j.text == "g-индекс":
+				td_num = n
+	vuz_inf_dict["g-индекс"] = items[td_num + 1].find_all('font')[0].text
+
+	items = soup.find_all('td')
+	td_num = 0
+	for n, i in enumerate(items, start=0):
+		tags = i.find_all('font')
+		for j in tags:
+			if j.text == "i-индекс":
+				td_num = n
+	vuz_inf_dict["i-индекс"] = items[td_num + 1].find_all('font')[0].text
+
+	items = soup.find_all('td')
+	td_num = 0
+	for n, i in enumerate(items, start=0):
+		tags = i.find_all('font')
+		for j in tags:
+			if j.text == "Число авторов":
+				td_num = n
+	vuz_inf_dict["Число авторов"] = items[td_num + 1].find_all('font')[0].text
+
+
+	items = soup.find_all('td')
+	td_num = 0
+	for n, i in enumerate(items, start=0):
+		tags = i.find_all('font')
+		for j in tags:
+			if j.text == "Число авторов":
+				td_num = n
+	vuz_inf_dict["Число авторов, зарегистрированных в Science Index"] = items[td_num + 4].find_all('font')[0].text
 
 def vuz_inf(orgId):
 	str_url = "https://www.elibrary.ru/org_profile.asp?id=" + str(orgId)
 	soup = scripe(str_url)
-	return vuz_obsh_inf(soup)
+	vuz_obsh_inf(soup)
 
 #def main(args):
 #	url = 'https://elibrary.ru/author_items.asp?authorid=640991'
