@@ -33,6 +33,8 @@ sotrud_inf_dict = {
 	"Индекс Хирша по ядру РИНЦ" : 0,
 }
 
+vuz_inf_tematic_dict = dict()
+
 def scripe(url):
 #	s=Service(ChromeDriverManager().install())
 #	driver = webdriver.Chrome(service=s)
@@ -42,7 +44,7 @@ def scripe(url):
 	options.add_argument('--headless')
 	driver = webdriver.Chrome("C:/Users/Alexandr/Documents/chromedriver/chromedriver.exe", chrome_options=options)
 	driver.get(url)
-	time.sleep(1)
+	time.sleep(2)
 	page_source = driver.page_source
 	soup = BeautifulSoup(page_source, 'lxml')
 	return soup
@@ -186,6 +188,15 @@ def vuz_obsh_inf(soup):
 				td_num = n
 	vuz_inf_dict["Число авторов, зарегистрированных в Science Index"] = items[td_num + 4].find_all('font')[0].text
 
+def vuz_inf_tematic(soup):
+	vuz_inf_tematic_dict.clear()
+	items = soup.find_all('tr')
+	for n, i in enumerate(items, start=0):
+		if n < 2:
+			continue
+		tags = i.find_all('td')
+		vuz_inf_tematic_dict[tags[1].text] = tags[2].text
+
 def sotrud_obsh_inf(soup):
 	items = soup.find_all('a', attrs={'title':'Полный список публикаций автора на портале elibrary.ru'})
 	try:
@@ -238,19 +249,14 @@ def vuz_inf(orgId):
 	str_url = "https://www.elibrary.ru/org_profile.asp?id=" + str(orgId)
 	soup = scripe(str_url)
 	vuz_obsh_inf(soup)
+	str_url = "https://www.elibrary.ru/org_profile2_rubrics.asp?id=" + str(orgId)
+	soup = scripe(str_url)
+	vuz_inf_tematic(soup)
+	print(vuz_inf_tematic_dict)
+
 
 def sotrud_inf(authorId):
 	str_url = "https://elibrary.ru/author_profile.asp?authorid=" + str(authorId)
 	soup = scripe(str_url)
 	sotrud_obsh_inf(soup)
-#def main(args):
-#	url = 'https://elibrary.ru/author_items.asp?authorid=640991'
-#	soup = scripe(url)
-#	print('Автор: ' + find_author_name(soup))
-#	print('ВУЗ: ' + find_vuz_name(soup))
-#	print('Всего публикаций: ' + find_kolvo_publ(soup))
-#	print('Публикация 1: ' + find_publ(soup))
 
-#if __name__ == '__main__':
-#    import sys
-#    sys.exit(main(sys.argv))

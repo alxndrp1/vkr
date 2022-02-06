@@ -33,17 +33,17 @@ def index(request):
 			sotrud = Sotrud.objects.all()
 			vuz_inf(univer.orgsid_univer)
 			init_link_org(univer.orgsid_univer)			
-			return render(request, 'mainapp/index.html', {'univer' : univer, 'vuz_inf_dict' : vuz_inf_dict, 'sotrud' : sotrud, 'rej_view' : rej_view})
+			return render(request, 'mainapp/index.html', {'univer' : univer, 'vuz_inf_dict' : vuz_inf_dict, 'sotrud' : sotrud, 'vuz_inf_tematic_dict' : vuz_inf_tematic_dict, 'rej_view' : rej_view})
 
 		if request.GET['vuz'] == "3":
 			univer = Univer.objects.get(id=3)
 			vuz_inf(univer.orgsid_univer)
-			init_link(univer.orgsid_univer)
-			return render(request, 'mainapp/index.html', {'univer' : univer, 'vuz_inf_dict' : vuz_inf_dict, 'rej_view' : rej_view})
+			init_link_org(univer.orgsid_univer)
+			return render(request, 'mainapp/index.html', {'univer' : univer, 'vuz_inf_dict' : vuz_inf_dict, 'vuz_inf_tematic_dict' : vuz_inf_tematic_dict, 'rej_view' : rej_view})
 
 		if request.GET['vuz'] == "4":
 			univer = Univer.objects.get(id=4)
 			vuz_inf(univer.orgsid_univer)
-			init_link(univer.orgsid_univer)
-			return render(request, 'mainapp/index.html', {'univer' : univer, 'vuz_inf_dict' : vuz_inf_dict, 'rej_view' : rej_view})
+			init_link_org(univer.orgsid_univer)
+			return render(request, 'mainapp/index.html', {'univer' : univer, 'vuz_inf_dict' : vuz_inf_dict, 'vuz_inf_tematic_dict' : vuz_inf_tematic_dict, 'rej_view' : rej_view})
 	return render(request, 'mainapp/index.html')

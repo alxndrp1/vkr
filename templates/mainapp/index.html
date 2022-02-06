@@ -72,6 +72,24 @@
               {% endfor %}                                        
             </tbody>
           </table>
+
+          <table class="table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th>Тематическая рубрика</th>
+                <th>Публикаций</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for dict_item in vuz_inf_tematic_dict.items %}
+              <tr>
+                {% for key in dict_item %}
+                  <td>{{key | safe}}</td>
+                {% endfor %}
+              </tr>  
+              {% endfor %}                                        
+            </tbody>
+          </table>
           {% endif %}
           {% if rej_view == 3 %}
           <table class="table table-striped">
