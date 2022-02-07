@@ -2,6 +2,7 @@
 
 pip install Django <br/>
 pip install beautifulsoup4 <br/>
+pip install lxml <br/>
 pip install selenium <br/>
 pip install webdriver-manager <br/>
 
