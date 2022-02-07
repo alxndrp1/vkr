@@ -1,7 +1,5 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.common.by import By
+from selenium.webdriver.firefox.options import Options
 from bs4 import BeautifulSoup
 import time
 
@@ -36,13 +34,9 @@ sotrud_inf_dict = {
 vuz_inf_tematic_dict = dict()
 
 def scripe(url):
-#	s=Service(ChromeDriverManager().install())
-#	driver = webdriver.Chrome(service=s)
-	options = webdriver.ChromeOptions()
-	options.add_argument('--ignore-certificate-errors')
-	options.add_argument('--incognito')
-	options.add_argument('--headless')
-	driver = webdriver.Chrome("C:/Users/Alexandr/Documents/chromedriver/chromedriver.exe", chrome_options=options)
+	options = Options()
+	options.headless = True
+	driver = webdriver.Firefox(options=options)
 	driver.get(url)
 	time.sleep(2)
 	page_source = driver.page_source
@@ -252,7 +246,6 @@ def vuz_inf(orgId):
 	str_url = "https://www.elibrary.ru/org_profile2_rubrics.asp?id=" + str(orgId)
 	soup = scripe(str_url)
 	vuz_inf_tematic(soup)
-	print(vuz_inf_tematic_dict)
 
 
 def sotrud_inf(authorId):
