@@ -3,6 +3,10 @@ from selenium.webdriver.firefox.options import Options
 from bs4 import BeautifulSoup
 import time
 
+from multiprocessing import Pool
+from multiprocessing.dummy import Pool as ThreadPool
+
+
 vuz_inf_dict = {
 	"Число публикаций на elibrary.ru" : 0,
 	"Число публикаций в РИНЦ" : 0,
@@ -38,7 +42,7 @@ def scripe(url):
 	options.headless = True
 	driver = webdriver.Firefox(options=options)
 	driver.get(url)
-	time.sleep(2)
+	#time.sleep(2)
 	page_source = driver.page_source
 	soup = BeautifulSoup(page_source, 'lxml')
 	return soup
@@ -240,13 +244,18 @@ def sotrud_obsh_inf(soup):
 	sotrud_inf_dict["Индекс Хирша по ядру РИНЦ"] = items[td_num + 7].find_all('font')[0].text
 
 def vuz_inf(orgId):
-	str_url = "https://www.elibrary.ru/org_profile.asp?id=" + str(orgId)
-	soup = scripe(str_url)
-	vuz_obsh_inf(soup)
-	str_url = "https://www.elibrary.ru/org_profile2_rubrics.asp?id=" + str(orgId)
-	soup = scripe(str_url)
-	vuz_inf_tematic(soup)
 
+	urls = ["https://www.elibrary.ru/org_profile.asp?id=" + str(orgId), "https://www.elibrary.ru/org_profile2_rubrics.asp?id=" + str(orgId)]
+	
+	pool = ThreadPool(4)
+	
+	results = pool.map(scripe, urls)
+
+	pool.close()
+	pool.join()
+
+	vuz_obsh_inf(results[0])
+	vuz_inf_tematic(results[1])
 
 def sotrud_inf(authorId):
 	str_url = "https://elibrary.ru/author_profile.asp?authorid=" + str(authorId)
