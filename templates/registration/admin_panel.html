@@ -41,8 +41,219 @@
       <div class="jumbotron">
         <div class="container">
           <h1 class="display-5">Панель администратора</h1>
-			{% if user.is_authenticated %}
-				<p>Hi {{ user.username }}!</p>
+			{% if user.is_authenticated %}		
+				{% if tab == 1 %}
+					<div class="card text-center">
+					  <div class="card-header">
+					    <ul class="nav nav-tabs card-header-tabs">
+					      <li class="nav-item">
+					        <a class="nav-link" href="?tab=0">Обновить показатели</a>
+					      </li>
+					      <li class="nav-item">
+					        <a class="nav-link active" href="?tab=1">Установить показатели</a>
+					      </li>
+					    </ul>
+					  </div>
+					  <div class="card-body">
+							{% if suc %}
+								<div class="alert alert-success" role="alert">
+								  Данные успешно сохранены!
+								</div>
+              {% endif %}					  	
+							{% if faks_list %}
+								<form action="#" method="get">
+									<input type="hidden" name="tab" value="1">
+									<label for="formGroupExampleInput">Выберите факультет:</label>
+									<select multiple class="form-control form-control-lg" name="fak" id="exampleFormControlSelect2" onchange="this.form.submit();">			
+									{% for fak in faks_list %}
+									  <option value="{{fak.0}}"> {{fak.1}}</option>
+	              	{% endfor%}
+	              	</select>
+	              </form>
+              {% endif %}
+							{% if kafs_list %}
+								<form action="#" method="get">
+									<input type="hidden" name="tab" value="1">
+									<label for="formGroupExampleInput" class="mt-2">Выберите кафедру:</label>
+									<select multiple class="form-control form-control-lg" name="kaf" id="exampleFormControlSelect2" onchange="this.form.submit();">			
+									{% for kaf in kafs_list %}
+									  <option value="{{kaf.0}}"> {{kaf.1}}</option>
+	              	{% endfor%}
+	              	</select>
+	              </form>
+              {% endif %}
+							{% if sots_list %}
+								<form action="#" method="post">
+									{% csrf_token %}
+									<input type="hidden" name="kafn" value="{{kafn}}">
+									<label for="formGroupExampleInput" class="mt-2">Сотрудники:</label>
+
+									<table class="table table-bordered">
+									  <thead class="thead-light">
+									    <tr>
+									      <th scope="col">ФИО</th>
+									      <th scope="col">Показатели</th>
+									      <th scope="col">Наименование показателя</th>
+									      <th scope="col">за все время</th>
+									      <th scope="col">2017</th>
+									      <th scope="col">2018</th>
+									      <th scope="col">2019</th>
+									      <th scope="col">2020</th>
+									      <th scope="col">2021</th>
+									      <th scope="col">2022</th>
+									    </tr>
+									  </thead>
+									  <tbody>								
+									{% for sot in sots_list %}
+								    <tr>
+								      <td rowspan='8' class="align-middle">{{sot.1}}</td>
+								      <td rowspan='4' class="align-middle" style="background-color: #7db6fb">Отчетные</td>
+								      <td class="align-middle" style="background-color: #7db6fb">Публикаций в РИНЦ</td>
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_2_0" value="{{sot.2.0}}" required> </td> 
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_3_0" value="{{sot.3.0}}" required> </td> 
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_4_0" value="{{sot.4.0}}" required> </td>
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_5_0" value="{{sot.5.0}}" required> </td> 
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_6_0" value="{{sot.6.0}}" required> </td> 
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_7_0" value="{{sot.7.0}}" required> </td> 
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_8_0" value="{{sot.8.0}}" required> </td>
+								    </tr>
+								    <tr>
+								      <td class="align-middle" style="background-color: #7db6fb">Публикации входящие в ядро РИНЦ</td>
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_2_1" value="{{sot.2.1}}" required> </td> 
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_3_1" value="{{sot.3.1}}" required> </td> 
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_4_1" value="{{sot.4.1}}" required> </td>
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_5_1" value="{{sot.5.1}}" required> </td> 
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_6_1" value="{{sot.6.1}}" required> </td> 
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_7_1" value="{{sot.7.1}}" required> </td> 
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_8_1" value="{{sot.8.1}}" required> </td>
+								    </tr>
+								    <tr>
+								      <td class="align-middle" style="background-color: #7db6fb">Цитирования публикаций в РИНЦ</td>
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_2_2" value="{{sot.2.2}}" required> </td> 
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_3_2" value="{{sot.3.2}}" required> </td> 
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_4_2" value="{{sot.4.2}}" required> </td>
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_5_2" value="{{sot.5.2}}" required> </td> 
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_6_2" value="{{sot.6.2}}" required> </td> 
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_7_2" value="{{sot.7.2}}" required> </td> 
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_8_2" value="{{sot.8.2}}" required> </td>
+								    </tr>
+								    <tr>
+								      <td class="align-middle" style="background-color: #7db6fb">Индекс Хирша по публикациям в РИНЦ</td>
+								      <td class="align-middle" style="background-color: #7db6fb"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_2_3" value="{{sot.2.3}}" required> </td> 
+											<td style="background-color: #7db6fb" colspan="6"></td> 
+								    </tr>
+								    <tr>
+								      <td rowspan='4' class="align-middle" style="background-color: #f9c261">Elibrary</td>
+								      <td class="align-middle" style="background-color: #f9c261">Публикаций в РИНЦ</td>
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_2_4" value="{{sot.2.4}}" required> </td> 
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_3_4" value="{{sot.3.3}}" required> </td> 
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_4_4" value="{{sot.4.3}}" required> </td>
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_5_4" value="{{sot.5.3}}" required> </td> 
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_6_4" value="{{sot.6.3}}" required> </td> 
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_7_4" value="{{sot.7.3}}" required> </td> 
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_8_4" value="{{sot.8.3}}" required> </td>
+								    </tr>
+								    <tr>
+								      <td class="align-middle" style="background-color: #f9c261">Публикации входящие в ядро РИНЦ</td>
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_2_5" value="{{sot.2.5}}" required> </td> 
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_3_5" value="{{sot.3.4}}" required> </td> 
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_4_5" value="{{sot.4.4}}" required> </td>
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_5_5" value="{{sot.5.4}}" required> </td> 
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_6_5" value="{{sot.6.4}}" required> </td> 
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_7_5" value="{{sot.7.4}}" required> </td> 
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_8_5" value="{{sot.8.4}}" required> </td>
+								    </tr>
+								    <tr>
+								      <td class="align-middle" style="background-color: #f9c261">Цитирования публикаций в РИНЦ</td>
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_2_6" value="{{sot.2.6}}" required> </td> 
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_3_6" value="{{sot.3.5}}" required> </td> 
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_4_6" value="{{sot.4.5}}" required> </td>
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_5_6" value="{{sot.5.5}}" required> </td> 
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_6_6" value="{{sot.6.5}}" required> </td> 
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_7_6" value="{{sot.7.5}}" required> </td> 
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_8_6" value="{{sot.8.5}}" required> </td>
+								    </tr>
+								    <tr>
+								      <td class="align-middle" style="background-color: #f9c261">Индекс Хирша по публикациям в РИНЦ</td>
+								      <td class="align-middle" style="background-color: #f9c261"> 
+								      	<input type="text" class="form-control" name="sot_{{sot.0}}_2_7" value="{{sot.2.7}}" required> </td> 
+								      <td style="background-color: #f9c261" colspan="6"></td> 
+								    </tr>
+	              	{% endfor%}
+									  </tbody>
+									</table>		              	
+	              	<button class="btn btn-primary" type="submit">Сохранить</button>
+	              </form>
+              {% endif %}                    
+					  </div>
+					</div> 
+				{% else %}
+					<div class="card text-center">
+					  <div class="card-header">
+					    <ul class="nav nav-tabs card-header-tabs">
+					      <li class="nav-item">
+					        <a class="nav-link active" href="?tab=0">Обновить показатели</a>
+					      </li>
+					      <li class="nav-item">
+					        <a class="nav-link" href="?tab=1">Установить показатели</a>
+					      </li>
+					    </ul>
+					  </div>
+					  <div class="card-body">
+							<div class="alert alert-info" role="alert">
+							  Дата и время последнего обновления показателей: <strong>{{date_obn}}</strong>
+							</div>
+					    <p class="card-text">Загрузить свежие показатели с elibrary.ru</p>
+					    <a href="?obn=1" onclick="(document.getElementById('load_block').style.display='block'); (document.getElementById('btn_load').style.display='none');" id="btn_load" class="btn btn-primary disabled">Загрузить</a>
+							<div class="cssload-container mt-2" id="load_block" style=" display:none;">
+			          <div class="cssload-whirlpool"></div> <br/> <br/>
+			        </div>
+					  </div>
+					</div> 				
+				{% endif %}
 			{% else %}
 				<p>Вы не авторизованы</p>
 				<a href="{% url 'login' %}">Войти</a>
