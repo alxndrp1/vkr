@@ -170,7 +170,11 @@
 											{% if fak.5 == fak.6 %}
 												<tr>
 													<th scope="row"> <a href="?publ={{publ}}&year={{year}}&fak={{ fak.0 }}"> {{ fak.1 }} </a> </th> 
-													<td style="--size: calc({{ fak.5 }}/{{maxpok}});--color:rgba(100,210,80,0.75)">
+													{% if maxpok == 0 %}
+														<td style="--size: calc({{ fak.5 }});--color:rgba(100,210,80,0.75)">
+													{% else %}
+														<td style="--size: calc({{ fak.5 }}/{{maxpok}});--color:rgba(100,210,80,0.75)">
+													{% endif %}
 														<span class="data"> {{ fak.5 }} </span>
 														<span class="tooltip"> 
 															<b>{{ fak.fak_name }}</b><br/>
@@ -181,10 +185,14 @@
 														</span>
 													</td>		
 												</tr>		
-											{% else %}			
+											{% else %}
 												<tr>
 													<th scope="row"> <a href="?publ={{publ}}&year={{year}}&fak={{ fak.0 }}"> {{ fak.1 }} </a> </th> 
-													<td style="--size:calc({{ fak.5 }}/{{maxpok}});">
+													{% if maxpok == 0 %}
+														<td style="--size: calc({{ fak.5 }});--color:rgba(100,210,80,0.75)">
+													{% else %}
+														<td style="--size: calc({{ fak.5 }}/{{maxpok}});--color:rgba(100,210,80,0.75)">
+													{% endif %}
 														<span class="data"> {{ fak.5 }} </span>
 														<span class="tooltip"> 
 															<b>{{ fak.2 }}</b><br/>
@@ -194,7 +202,11 @@
 															Показатели на elibrary: {{ fak.6 }} <br/>
 														</span>
 													</td>
-													<td style="--size:calc({{ fak.6 }}/{{maxpok}});">
+													{% if maxpok == 0 %}
+														<td style="--size: calc({{ fak.6 }});--color:rgba(100,210,80,0.75)">
+													{% else %}
+														<td style="--size: calc({{ fak.6 }}/{{maxpok}});--color:rgba(100,210,80,0.75)">
+													{% endif %}
 														<span class="data"> {{ fak.6 }} </span>
 														<span class="tooltip"> 
 															<b>{{ fak.2 }}</b><br/>
@@ -214,7 +226,11 @@
 											{% if kaf.4 == kaf.5 %}
 												<tr>
 													<th scope="row"> <a href="?publ={{publ}}&year={{year}}&kaf={{kaf.0}}"> {{kaf.1}} </a> </th> 
-													<td style="--size: calc({{kaf.4}}/{{maxpok}});--color:rgba(100,210,80,0.75)">
+													{% if maxpok == 0 %}
+														<td style="--size: calc({{kaf.4}});--color:rgba(100,210,80,0.75)">
+													{% else %}
+														<td style="--size: calc({{kaf.4}}/{{maxpok}});--color:rgba(100,210,80,0.75)">
+													{% endif %}
 														<span class="data"> {{kaf.4}} </span>
 														<span class="tooltip"> 
 															<b>{{kaf.2}}</b><br/>
@@ -227,7 +243,11 @@
 											{% else %}			
 												<tr>
 													<th scope="row"> <a href="?publ={{publ}}&year={{year}}&kaf={{kaf.0}}"> {{kaf.1}} </a> </th> 
-													<td style="--size:calc({{kaf.4}}/{{maxpok}});">
+													{% if maxpok == 0 %}
+														<td style="--size: calc({{kaf.4}});--color:rgba(100,210,80,0.75)">
+													{% else %}
+														<td style="--size: calc({{kaf.4}}/{{maxpok}});--color:rgba(100,210,80,0.75)">
+													{% endif %}
 														<span class="data"> {{kaf.4}} </span>
 														<span class="tooltip"> 
 															<b>{{kaf.2}}</b><br/>
@@ -236,7 +256,11 @@
 															Показатели на elibrary: {{kaf.5}}										
 														</span>
 													</td>
-													<td style="--size:calc({{kaf.5}}/{{maxpok}});">
+													{% if maxpok == 0 %}
+														<td style="--size: calc({{kaf.5}});--color:rgba(100,210,80,0.75)">
+													{% else %}
+														<td style="--size: calc({{kaf.5}}/{{maxpok}});--color:rgba(100,210,80,0.75)">
+													{% endif %}
 														<span class="data"> {{kaf.5}} </span>
 														<span class="tooltip"> 
 															<b>{{kaf.2}}</b><br/>
@@ -255,7 +279,11 @@
 											{% if sot.2 == sot.3 %}
 												<tr>
 													<th scope="row" style="font-size: 9px;"> <a href="https://www.elibrary.ru/author_profile.asp?authorid={{sot.4}}">{{sot.0}} </a> </th> 
-													<td style="--size: calc({{sot.2}}/{{maxpok}});--color:rgba(100,210,80,0.75)">
+													{% if maxpok == 0 %}
+														<td style="--size: calc({{sot.2}});--color:rgba(100,210,80,0.75)">
+													{% else %}
+														<td style="--size: calc({{sot.2}}/{{maxpok}});--color:rgba(100,210,80,0.75)">
+													{% endif %}
 														<span class="data"> {{sot.3}} </span>
 														<span class="tooltip"> 
 															<b>{{sot.1}}</b><br/>
@@ -267,7 +295,11 @@
 											{% else %}			
 												<tr>
 													<th scope="row" style="font-size: 9px;"> <a href="https://www.elibrary.ru/author_profile.asp?authorid={{sot.4}}">{{sot.0}} </a> </th> 
-													<td style="--size:calc({{sot.2}}/{{maxpok}});">
+													{% if maxpok == 0 %}
+														<td style="--size: calc({{sot.2}});--color:rgba(100,210,80,0.75)">
+													{% else %}
+														<td style="--size: calc({{sot.2}}/{{maxpok}});--color:rgba(100,210,80,0.75)">
+													{% endif %}
 														<span class="data"> {{sot.2}} </span>
 														<span class="tooltip"> 
 															<b>{{sot.1}}</b><br/>
@@ -275,7 +307,11 @@
 															Показатели на elibrary: {{sot.3}}
 														</span>
 													</td>
-													<td style="--size:calc({{sot.3}}/{{maxpok}});">
+													{% if maxpok == 0 %}
+														<td style="--size: calc({{sot.3}});--color:rgba(100,210,80,0.75)">
+													{% else %}
+														<td style="--size: calc({{sot.3}}/{{maxpok}});--color:rgba(100,210,80,0.75)">
+													{% endif %}
 														<span class="data"> {{sot.3}} </span>
 														<span class="tooltip"> 
 															<b>{{sot.1}}</b><br/>
