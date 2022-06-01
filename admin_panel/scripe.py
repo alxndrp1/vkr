@@ -45,12 +45,12 @@ def autoriz():
 def scripe(url):
 	global driver
 	driver.get(url)
-	time.sleep(3)
+	#time.sleep(1)
 	soup = BeautifulSoup(driver.page_source, 'lxml')
 	if turing(soup):
-		time.sleep(35)
+		time.sleep(30)
 		driver.get(url)
-		time.sleep(3)
+		#time.sleep(1)
 		soup = BeautifulSoup(driver.page_source, 'lxml')
 	return soup	
 
@@ -69,42 +69,53 @@ def p_hir_rinc(soup):
 
 def p_publ_rinc(soup, year):
 	publ_rinc = 0
-	cit_rinc = 0
 	items = soup.find_all('font')
-	item_cit = 0
 	for i in items:
 		if i.text == "Всего найдено":
-			publ_rinc = int(i.find_next("b").text)
-			item_cit = i				
+			publ_rinc = int(i.find_next("b").text)		
 			break
 		if i.text == "Всего найдена":
-			publ_rinc = int(i.find_next("b").text)
-			item_cit = i				
+			publ_rinc = int(i.find_next("b").text)			
 			break		
-	#cit_rinc = int(soup.find("span", {"id": "totalcited"}).previous_sibling.get_text(strip=True))
-	if item_cit:
-		cit_rinc = item_cit.next_sibling.next_sibling.next_sibling.next_sibling.next_sibling.get_text(strip=True)
 	if year == 0:
 		sot_inf["publ_rinc"] = publ_rinc
-		sot_inf["cit_rinc"] = cit_rinc
 	elif year == 1:
 		sot_inf["2017_publ_rinc"] = publ_rinc
-		sot_inf["2017_cit_rinc"] = cit_rinc
 	elif year == 2:
 		sot_inf["2018_publ_rinc"] = publ_rinc
-		sot_inf["2018_cit_rinc"] = cit_rinc
 	elif year == 3:
 		sot_inf["2019_publ_rinc"] = publ_rinc
-		sot_inf["2019_cit_rinc"] = cit_rinc
 	elif year == 4:
 		sot_inf["2020_publ_rinc"] = publ_rinc
-		sot_inf["2020_cit_rinc"] = cit_rinc
 	elif year == 5:
 		sot_inf["2021_publ_rinc"] = publ_rinc
-		sot_inf["2021_cit_rinc"] = cit_rinc
 	elif year == 6:
 		sot_inf["2022_publ_rinc"] = publ_rinc
-		sot_inf["2022_cit_rinc"] = cit_rinc
+
+def p_cit_rinc(soup, year):
+	cit_rinc = 0
+	items = soup.find_all('font')
+	for i in items:
+		if i.text == "Всего найдено":
+			cit_rinc = int(i.find_next("b").text)					
+			break
+		if i.text == "Всего найдена":
+			cit_rinc = int(i.find_next("b").text)			
+			break				
+	if year == 0:
+		sot_inf["cit_rinc"] = cit_rinc
+	elif year == 1:
+		sot_inf["2017_cit_rinc"] = cit_rinc
+	elif year == 2:
+		sot_inf["2018_cit_rinc"] = cit_rinc
+	elif year == 3:
+		sot_inf["2019_cit_rinc"] = cit_rinc
+	elif year == 4:
+		sot_inf["2020_cit_rinc"] = cit_rinc
+	elif year == 5:
+		sot_inf["2021_cit_rinc"] = cit_rinc
+	elif year == 6:
+		sot_inf["2022_cit_rinc"] = cit_rinc	
 
 def p_publ_yrinc(soup, year):
 	publ_yrinc = 0
@@ -134,35 +145,49 @@ def sotrud_inf(authorId):
 
 	soup = scripe("https://elibrary.ru/author_items.asp?authorid=" + str(authorId) + "&pubrole=100&show_option=0")
 	p_publ_rinc(soup, 0)
+	soup = scripe("https://www.elibrary.ru/author_refs.asp?authorid=" + str(authorId))
+	p_cit_rinc(soup, 0)
 	soup = scripe("https://elibrary.ru/author_items.asp?authorid=" + str(authorId) + "&pubrole=100&show_option=2")
 	p_publ_yrinc(soup, 0)
 
 	soup = scripe("https://elibrary.ru/author_items.asp?authorid=" + str(authorId) + "&pubrole=100&show_option=0&pubyear=2017")
 	p_publ_rinc(soup, 1)
+	soup = scripe("https://www.elibrary.ru/author_refs.asp?authorid=" + str(authorId) + "&sourceyear=2017")
+	p_cit_rinc(soup, 1)	
 	soup = scripe("https://elibrary.ru/author_items.asp?authorid=" + str(authorId) + "&pubrole=100&show_option=2&pubyear=2017")
 	p_publ_yrinc(soup, 1)
 
 	soup = scripe("https://elibrary.ru/author_items.asp?authorid=" + str(authorId) + "&pubrole=100&show_option=0&pubyear=2018")
 	p_publ_rinc(soup, 2)
+	soup = scripe("https://www.elibrary.ru/author_refs.asp?authorid=" + str(authorId) + "&sourceyear=2018")
+	p_cit_rinc(soup, 2)	
 	soup = scripe("https://elibrary.ru/author_items.asp?authorid=" + str(authorId) + "&pubrole=100&show_option=2&pubyear=2018")
 	p_publ_yrinc(soup, 2)
 
 	soup = scripe("https://elibrary.ru/author_items.asp?authorid=" + str(authorId) + "&pubrole=100&show_option=0&pubyear=2019")
 	p_publ_rinc(soup, 3)
+	soup = scripe("https://www.elibrary.ru/author_refs.asp?authorid=" + str(authorId) + "&sourceyear=2019")
+	p_cit_rinc(soup, 3)	
 	soup = scripe("https://elibrary.ru/author_items.asp?authorid=" + str(authorId) + "&pubrole=100&show_option=2&pubyear=2019")
 	p_publ_yrinc(soup, 3)
 
 	soup = scripe("https://elibrary.ru/author_items.asp?authorid=" + str(authorId) + "&pubrole=100&show_option=0&pubyear=2020")
 	p_publ_rinc(soup, 4)
+	soup = scripe("https://www.elibrary.ru/author_refs.asp?authorid=" + str(authorId) + "&sourceyear=2020")
+	p_cit_rinc(soup, 4)	
 	soup = scripe("https://elibrary.ru/author_items.asp?authorid=" + str(authorId) + "&pubrole=100&show_option=2&pubyear=2020")
 	p_publ_yrinc(soup, 4)
 
 	soup = scripe("https://elibrary.ru/author_items.asp?authorid=" + str(authorId) + "&pubrole=100&show_option=0&pubyear=2021")
 	p_publ_rinc(soup, 5)
+	soup = scripe("https://www.elibrary.ru/author_refs.asp?authorid=" + str(authorId) + "&sourceyear=2021")
+	p_cit_rinc(soup, 5)	
 	soup = scripe("https://elibrary.ru/author_items.asp?authorid=" + str(authorId) + "&pubrole=100&show_option=2&pubyear=2021")
 	p_publ_yrinc(soup, 5)
 
 	soup = scripe("https://elibrary.ru/author_items.asp?authorid=" + str(authorId) + "&pubrole=100&show_option=0&pubyear=2022")
 	p_publ_rinc(soup, 6)
+	soup = scripe("https://www.elibrary.ru/author_refs.asp?authorid=" + str(authorId) + "&sourceyear=2022")
+	p_cit_rinc(soup, 6)	
 	soup = scripe("https://elibrary.ru/author_items.asp?authorid=" + str(authorId) + "&pubrole=100&show_option=2&pubyear=2022")
 	p_publ_yrinc(soup, 6)
